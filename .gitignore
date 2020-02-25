@@ -4,3 +4,5 @@ code_exam/
 demo_test/
 demo.*
 demo/
+tensor/
+*.log

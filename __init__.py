@@ -46,6 +46,18 @@ def pkgPath():
     exeHello('pkgPath')
 
 
+def pipu():
+    """pipu.
+
+    更新pip，设置pypi源
+    """
+    # pip >= 10.0.0
+    os.system('pip install pip -U')
+    # os.system(
+    #     'pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple'
+    # )
+
+
 def pipy():
     """pipy.
 
@@ -104,6 +116,8 @@ def pipInstall():
 
 if __name__ == '__main__':
     # pkgPath()
-    pipy()
+    # pipy()
+    # tuna()
     # pipInstall()
+    os.system('echo $HOME')
     pass

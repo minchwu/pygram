@@ -26,6 +26,7 @@ def exeHello(funName: str):
     程序结束运行报告
     """
     print("This is <{0}>, everything is done!".format(funName))
+    os.system("pause")
 
 
 def chDir(filePath: str = './', copyPath: str = './copy', exName: str = 'ALL'):
@@ -62,7 +63,8 @@ def fiRna(exName: str,
           filePath: str = './',
           copyPath: str = './copy',
           pattern: str = "0:0>4",
-          boolCopy: bool = True):
+          boolCopy: bool = True,
+          boolExist: bool = False):
     """fiRna.
 
     批量重命名
@@ -80,29 +82,79 @@ def fiRna(exName: str,
     if not os.path.exists(copyPath):
         os.mkdir(copyPath)
 
-    # 复制选项分支
-    # 如果不复制，则为移动
-    if not boolCopy:
+    def _copyRename(item: str):
+        """copyRename.
+
+        复制重命名
+        """
+        shutil.copy(
+            os.path.join(filePath, item),
+            os.path.join(
+                copyPath, "{{{0}}}{1}".format(pattern, exName).format(
+                    (next(count)))))
+
+    def _moveRename(item: str):
+        """moveRename.
+
+        移动重命名
+        """
+        os.rename(
+            os.path.join(filePath, item),
+            os.path.join(
+                copyPath, "{{{0}}}{1}".format(pattern,
+                                              exName).format(next(count))))
+
+    def _boolFileExistCopy(item: str):
+        """boolFileExist.
+
+        判断文件名是否重复，并复制
+        """
+        tmpName = "{{{0}}}{1}".format(pattern, exName).format(next(count))
+        if os.path.exists(os.path.join(copyPath, tmpName)):
+            _boolFileExistCopy(item)
+        else:
+            shutil.copy(os.path.join(filePath, item),
+                        os.path.join(copyPath, tmpName))
+            pass
+
+    def _boolFileExistMove(item: str):
+        """boolFileExistMove.
+
+        判断文件名是否重复，并移动
+        """
+        tmpName = "{{{0}}}{1}".format(pattern, exName).format(next(count))
+        if os.path.exists(os.path.join(copyPath, tmpName)):
+            _boolFileExistMove(item)
+        else:
+            os.rename(os.path.join(filePath, item),
+                      os.path.join(copyPath, tmpName))
+            pass
+
+    # 复制及重名分支
+    # 默认为复制，不考虑文件名已存在问题
+    if boolCopy and not boolExist:
         for eachFile in fileList:
             # 文件扩展名判断
             if os.path.splitext(eachFile)[1] == exName:
-                os.rename(
-                    os.path.join(filePath, eachFile),
-                    os.path.join(
-                        copyPath,
-                        "{{{0}}}{1}".format(pattern,
-                                            exName).format(next(count))))
-    # 否则为复制，保留原文件
-    else:
+                _copyRename(eachFile)
+    # 复制，考虑文件名已存在
+    elif boolCopy and boolExist:
         for eachFile in fileList:
             # 文件扩展名判断
             if os.path.splitext(eachFile)[1] == exName:
-                shutil.copy(
-                    os.path.join(filePath, eachFile),
-                    os.path.join(
-                        copyPath,
-                        "{{{0}}}{1}".format(pattern,
-                                            exName).format(next(count))))
+                _boolFileExistCopy(eachFile)  # 校验文件名是否已存在，重名则跳过该文件名
+    # 移动，不考虑文件名
+    elif not boolCopy and not boolExist:
+        for eachFile in fileList:
+            # 文件扩展名判断
+            if os.path.splitext(eachFile)[1] == exName:
+                _moveRename(eachFile)
+    # 移动，考虑文件名
+    elif not boolCopy and boolExist:
+        for eachFile in fileList:
+            if os.path.splitext(eachFile)[1] == exName:
+                _boolFileExistMove(eachFile)  # 校验文件名是否已存在，重名则跳过该文件名
+
     exeHello('fiRna')
 
 
@@ -118,15 +170,15 @@ def recurFile(rootPath: str = './',
     pathCheck(rootPath)
 
     # 子函数定义
-    def copyBase(srcPath: str, dstPath: str, fileName: str):
+    def _copyBase(srcPath: str, dstPath: str, fileName: str):
         shutil.copy(os.path.join(srcPath, fileName),
                     os.path.join(dstPath, fileName))
 
-    def strCover(fileName: str):
+    def _strCover(fileName: str):
         return (input(
             "file({0}) already exists, cover?[y/n/q]:".format(fileName)))
 
-    def copyExAsk():
+    def _copyExAsk():
         """copyExAsk.
 
         扩展名复制，询问是否覆盖文件
@@ -138,9 +190,9 @@ def recurFile(rootPath: str = './',
                     # 判断文件是否已经存在
                     if os.path.exists((os.path.join(copyPath, each))):
                         # 询问是否覆盖文件
-                        cover = strCover(each)
+                        cover = _strCover(each)
                         if cover == 'y':
-                            copyBase(root, copyPath, each)
+                            _copyBase(root, copyPath, each)
                         # 不覆盖则跳过此文件
                         elif cover == 'n':
                             continue
@@ -151,9 +203,9 @@ def recurFile(rootPath: str = './',
                         else:
                             print("please check your input!")
                     else:
-                        copyBase(root, copyPath, each)
+                        _copyBase(root, copyPath, each)
 
-    def copyNxAsk():
+    def _copyNxAsk():
         """copyNxAsk.
 
         全部复制，询问是否覆盖文件
@@ -163,9 +215,9 @@ def recurFile(rootPath: str = './',
                 # 判断文件是否存在
                 if os.path.exists(os.path.join(copyPath, each)):
                     # 询问是否覆盖文件
-                    cover = strCover(each)
+                    cover = _strCover(each)
                     if cover == 'y':
-                        copyBase(root, copyPath, each)
+                        _copyBase(root, copyPath, each)
                     # 不覆盖则跳过此文件
                     elif cover == 'n':
                         continue
@@ -176,9 +228,9 @@ def recurFile(rootPath: str = './',
                     else:
                         print("please check your input!")
                 else:
-                    copyBase(root, copyPath, each)
+                    _copyBase(root, copyPath, each)
 
-    def copyExCover():
+    def _copyExCover():
         """copyExCover.
 
         扩展名复制，覆盖已有文件
@@ -186,16 +238,16 @@ def recurFile(rootPath: str = './',
         for root, _, files in os.walk(rootPath):
             for each in files:
                 if os.path.splitext(each)[1] == exName:
-                    copyBase(root, copyPath, each)
+                    _copyBase(root, copyPath, each)
 
-    def copyNxCover():
+    def _copyNxCover():
         """copyNxCover.
 
         全部复制，覆盖已有文件
         """
         for root, _, files in os.walk(rootPath):
             for each in files:
-                copyBase(root, copyPath, each)
+                _copyBase(root, copyPath, each)
 
     # 检查 copy 文件夹是否存在，否则新建
     if not os.path.exists(copyPath):
@@ -203,17 +255,17 @@ def recurFile(rootPath: str = './',
     # 情况划分
     if exName == 'ALL':
         if boolCover:
-            copyNxCover()
+            _copyNxCover()
             exeHello('recurFile.copyNxCover')
         else:
-            copyNxAsk()
+            _copyNxAsk()
             exeHello('recurFile.copyNxAsk')
     else:
         if boolCover:
-            copyExCover()
+            _copyExCover()
             exeHello('recurFile.copyExCover')
         else:
-            copyExAsk()
+            _copyExAsk()
             exeHello('recurFile.copyExAsk')
 
 
@@ -222,4 +274,7 @@ if __name__ == '__main__':
     # print("{{{0}}}".format("0:0>4").format(1))
     # print(type(True))
     recurFile(rootPath='./demo_test/test_pyshell',
+              copyPath='./demo/copy',
               exName='.xlsx')
+    # exeHello(chDir.__name__)
+    # print(chDir.__name__)
