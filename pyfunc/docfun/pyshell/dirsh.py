@@ -7,7 +7,7 @@
 
 import os
 import shutil
-import func.remath.gener as gener
+import pyfunc.remath.gener as gener
 
 
 def pathCheck(path: str):
@@ -156,6 +156,29 @@ def fiRna(exName: str,
                 _boolFileExistMove(eachFile)  # 校验文件名是否已存在，重名则跳过该文件名
 
     exeHello('fiRna')
+
+
+def fiRnaCall(exName: list = [],
+              filePath: str = './',
+              copyPath: str = './copy',
+              pattern: str = "0:0>4",
+              boolCopy: bool = True,
+              boolExist: bool = True):
+    """fiRnaCall.
+
+    对fiRna进行二次封装，提供多扩展名接口
+    """
+    if len(exName) > 0:
+        for eachItem in exName:
+            fiRna(eachItem, filePath, copyPath, pattern, boolCopy, boolExist)
+    else:
+        exSet = set(
+            [os.path.splitext(item)[1] for item in os.listdir(filePath)])
+        print(exSet)
+        for eachItem in exSet:
+            fiRna(eachItem, filePath, copyPath, pattern, boolCopy, boolExist)
+
+    exeHello('fiRnaCall')
 
 
 def recurFile(rootPath: str = './',

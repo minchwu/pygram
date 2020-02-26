@@ -6,7 +6,7 @@
 """
 
 import os
-import func.docfun.pyreport.tabRe as tabRe
+import pyfunc.docfun.pyreport.tabRe as tabRe
 
 DATAPATH = './Adams/'
 SAVEPATH = './VSP_Comp/'
