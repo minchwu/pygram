@@ -6,3 +6,8 @@ demo.*
 demo/
 tensor/
 *.log
+picture/
+*.so
+*.exe
+*.txt
+/*.png

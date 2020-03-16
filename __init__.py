@@ -46,18 +46,6 @@ def pkgPath():
     exeHello('pkgPath')
 
 
-def pipu():
-    """pipu.
-
-    更新pip，设置pypi源
-    """
-    # pip >= 10.0.0
-    os.system('pip install pip -U')
-    # os.system(
-    #     'pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple'
-    # )
-
-
 def pipy():
     """pipy.
 
@@ -108,7 +96,36 @@ def pipInstall():
 
     自动处理依赖项
     """
-    depList = ['scipy', 'numpy']
+    # 配置pip源为清华源
+    os.system(
+        'pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple'
+    )
+    return 0
+    # 更新pip>=10.0.0
+    os.system('pip install pip -U')
+    # 第三方库列表
+    depList = [
+        'numpy',
+        'pandas',
+        'scipy',
+        'sympy',
+        'matplotlib',
+        'ggplot',
+        'plotly',
+        'pillow',
+        'jupyter',
+        'ipython',
+        'openpyxl',
+        'xlwt',
+        'xlrd',
+        'pyqt5',
+        'wxpython',
+        'sklearn',
+        'keras',
+        'tensorflow',
+        'request',
+        'tablib',
+    ]
     for each in depList:
         os.system('pip install {0}'.format(each))
     exeHello('pipInstall')
@@ -117,7 +134,5 @@ def pipInstall():
 if __name__ == '__main__':
     # pkgPath()
     # pipy()
-    # tuna()
-    # pipInstall()
-    os.system('echo $HOME')
+    pipInstall()
     pass

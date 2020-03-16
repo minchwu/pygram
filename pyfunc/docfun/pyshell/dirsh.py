@@ -155,7 +155,7 @@ def fiRna(exName: str,
             if os.path.splitext(eachFile)[1] == exName:
                 _boolFileExistMove(eachFile)  # 校验文件名是否已存在，重名则跳过该文件名
 
-    exeHello('fiRna')
+    exeHello('{0}/ex->({1})'.format('fiRna', exName))
 
 
 def fiRnaCall(exName: list = [],
