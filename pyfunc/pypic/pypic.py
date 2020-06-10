@@ -32,6 +32,21 @@ def piCrop(filePath: str = './',
     exeHello("piCrop")
 
 
+def piCave(filePath: str = './', copyPath: str = './copy', fmt: str = '.png'):
+    """piCave.
+
+    图片格式转换
+    """
+    pathCheck(filePath)
+
+    # 检查复制文件夹是否存在，否则新建
+    if not os.path.exists(copyPath):
+        os.mkdir(copyPath)
+    for each in os.listdir(filePath):
+        im = Image.open(os.path.join(filePath, each), "r")
+        im.save(os.path.join(copyPath, each + fmt))
+
+
 # 图片截取框大小试取
 if __name__ == "__main__":
     # zoom 讲义
@@ -45,8 +60,11 @@ if __name__ == "__main__":
     # region.save("./0002.png")
 
     # 矩阵分析作业拍照
-    im = Image.open("./1001.jpg", "r")
-    print(im.size)
-    box = (0, 300, 4000, 2000)
-    region = im.crop(box)
-    region.show()
+    # im = Image.open("./1001.jpg", "r")
+    # print(im.size)
+    # box = (0, 300, 4000, 2000)
+    # region = im.crop(box)
+    # region.show()
+
+    # 图片格式转换
+    piCave(filePath='./pictest/', copyPath='./pictest/copy')

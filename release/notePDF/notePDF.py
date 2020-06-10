@@ -6,7 +6,7 @@
 """
 
 import sys
-import func.docfun.pyshell.dirsh as dirsh
+import pyfunc.docfun.pyshell.dirsh as dirsh
 
 if __name__ == '__main__':
 

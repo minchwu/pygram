@@ -6,6 +6,8 @@
 更改python安装源
 pkg 依赖包批量安装
 """
+# TODO: 添加修饰器，调整函数日志功能
+# TODO: matplotlib 和 gui 库的结合，窗口绘图开发
 
 import os
 import sys
@@ -28,14 +30,6 @@ def pkgPath():
     # 获取python安装目录
     pth = sys.exec_prefix
     pkg = os.path.join(pth, 'pkg.pth')
-    ''' 读写区分
-    if not os.path.exists(pkg):
-        with open(pkg, 'w', encoding='utf-8') as pkh:
-            pkh.write(os.getcwd())
-    else:
-        with open(pkg, 'r+', encoding='utf-8') as pkh:
-            pkh.write(os.getcwd())
-    '''
 
     # 作为临时工作目录修改
     with open(pkg, 'w', encoding='utf-8') as pkh:
@@ -50,11 +44,10 @@ def pipy():
     """pipy.
 
     检测平台，更改pip安装源
+    与直接定义global.index-url效果相同
     """
     plat = platform.system()
     pipPathW = os.path.join(os.path.expandvars('$HOME'), 'pip')
-    # 函数测试
-    # pipPathW = './demo/pip'
     pipPathL = os.path.join(os.path.expandvars('$HOME'), '.pip')
     pipSource = "[global]\nindex-url = https://pypi.tuna.tsinghua.edu.cn/simple"
 
@@ -100,7 +93,8 @@ def pipInstall():
     os.system(
         'pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple'
     )
-    return 0
+    # return 控制是否仅执行到pip更新
+    # return 0
     # 更新pip>=10.0.0
     os.system('pip install pip -U')
     # 第三方库列表
@@ -110,8 +104,14 @@ def pipInstall():
         'scipy',
         'sympy',
         'matplotlib',
+        'seaborn',
+        'pyecharts',
         'ggplot',
+        'plotnine',
         'plotly',
+        'cufflinks',
+        'chart_studio',
+        'pylatex',
         'pillow',
         'jupyter',
         'ipython',
@@ -123,11 +123,15 @@ def pipInstall():
         'sklearn',
         'keras',
         'tensorflow',
+        'fbprophet',# 由于win上pip安装可能存在编译问题，可通过conda安装后将site-packages下的文件copy到pip下
         'request',
         'tablib',
+        'pyinstaller',
+        'fbs',
     ]
     for each in depList:
         os.system('pip install {0}'.format(each))
+
     exeHello('pipInstall')
 
 

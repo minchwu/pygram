@@ -11,3 +11,6 @@ picture/
 *.exe
 *.txt
 /*.png
+*.todo
+dist/
+*.spec

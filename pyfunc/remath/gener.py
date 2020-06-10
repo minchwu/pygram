@@ -5,6 +5,7 @@
 构建常用的生成器
 """
 
+import numpy.random as random
 import numpy.lib.scimath as sp
 
 
@@ -30,9 +31,35 @@ def fib():
         a, b = b, a + b
 
 
+def draw(N: int):
+    """draw lots.
+
+    抽签函数
+    对N序列随机排序并逐个弹出
+    """
+    List = list(range(1, N + 1))
+    while len(List) > 0:
+        choice = List[random.randint(len(List))]
+        yield("Num: {0},   Your order is {1}".format(N-len(List)+1, choice))
+        List.remove(choice)
+    pass
+
+
 # 模块测试
 if __name__ == "__main__":
-    num1 = num(1)
-    for i in range(100):
-        print(next(num1))
-        # print(next(num(i)))
+    # num 测试
+    # num1 = num(1)
+    # for i in range(100):
+    #     print(next(num1))
+    #     # print(next(num(i)))
+
+    # draw 测试
+    ch = draw(6)
+    for i in range(7):
+        try:
+            print(next(ch))
+        except StopIteration:
+            print("draw may be small for your choice")
+
+    pass
+
