@@ -29,6 +29,15 @@ def exeHello(funName: str):
     os.system("pause")
 
 
+def curDir(filepath: str):
+    """curDir.
+
+    返回文件路径到执行文件路径
+    """
+    curdir = os.path.dirname(os.path.abspath(filepath))
+    os.system("cd {}".format(curdir))
+
+
 def chDir(filePath: str = './', copyPath: str = './copy', exName: str = 'ALL'):
     """chDir.
 

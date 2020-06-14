@@ -6,4 +6,4 @@ func module
 redefine some functions
 """
 
-__author__ = 'Minch Wu'
+__author__ = 'Mingchun Wu'
