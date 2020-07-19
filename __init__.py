@@ -84,7 +84,7 @@ def pipy():
     exeHello('pipy')
 
 
-def pipInstall():
+def pipInstall(upgrade:bool=False):
     """pipInstall.
 
     自动处理依赖项
@@ -104,6 +104,8 @@ def pipInstall():
         'scipy',
         'sympy',
         'matplotlib',
+        'pygal',
+        'scienceplots',
         'seaborn',
         'pyecharts',
         'ggplot',
@@ -114,29 +116,40 @@ def pipInstall():
         'pylatex',
         'pillow',
         'jupyter',
+        'jupyterlab',
         'ipython',
+        'spyder',
         'openpyxl',
         'xlwt',
         'xlrd',
         'pyqt5',
+        'pyqtgraph',
         'wxpython',
         'sklearn',
+        'pytorch',# 一般下载失败，可在官网提取下载命令，科学下载
         'keras',
         'tensorflow',
         'fbprophet',# 由于win上pip安装可能存在编译问题，可通过conda安装后将site-packages下的文件copy到pip下
         'request',
+        'parsel',
+        'scrapy',
+        'flask',
         'tablib',
         'pyinstaller',
         'fbs',
     ]
-    for each in depList:
-        os.system('pip install {0}'.format(each))
+    if upgrade:
+        for each in depList:
+            os.system('pip install -U {0}'.format(each))
+    else:
+        for each in depList:
+            os.system('pip install {0}'.format(each))
 
     exeHello('pipInstall')
 
 
 if __name__ == '__main__':
-    # pkgPath()
+    pkgPath()
     # pipy()
-    pipInstall()
+    # pipInstall()
     pass
