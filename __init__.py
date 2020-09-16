@@ -84,7 +84,7 @@ def pipy():
     exeHello('pipy')
 
 
-def pipInstall(upgrade:bool=False):
+def pipInstall(upgrade: bool = False):
     """pipInstall.
 
     自动处理依赖项
@@ -101,6 +101,8 @@ def pipInstall(upgrade:bool=False):
     depList = [
         'numpy',
         'pandas',
+        'tushare',  # 金融数据接口
+        'vaex',  # 大数据存储结构
         'scipy',
         'sympy',
         'matplotlib',
@@ -113,10 +115,12 @@ def pipInstall(upgrade:bool=False):
         'plotly',
         'cufflinks',
         'chart_studio',
+        'bqplot',  # 2-D交互式绘图
         'pylatex',
         'pillow',
         'jupyter',
         'jupyterlab',
+        'rise',  # 提供jupyter的ppt展示功能
         'ipython',
         'spyder',
         'openpyxl',
@@ -126,10 +130,13 @@ def pipInstall(upgrade:bool=False):
         'pyqtgraph',
         'wxpython',
         'sklearn',
-        'pytorch',# 一般下载失败，可在官网提取下载命令，科学下载
+        'pytorch',  # 一般下载失败，可在官网提取下载命令，科学下载
         'keras',
         'tensorflow',
-        'fbprophet',# 由于win上pip安装可能存在编译问题，可通过conda安装后将site-packages下的文件copy到pip下
+        'fbprophet',  # 由于win上pip安装可能存在编译问题，可通过conda安装后将site-packages下的文件copy到pip下
+        'orange3',  # 数据挖掘GUI工具
+        'psycopg2',  # PostGreSQL适配
+        'pgxnclient',  # PostgreSQL插件管理
         'request',
         'parsel',
         'scrapy',
@@ -137,6 +144,8 @@ def pipInstall(upgrade:bool=False):
         'tablib',
         'pyinstaller',
         'fbs',
+        'nuitka',
+        'jieba',
     ]
     if upgrade:
         for each in depList:
