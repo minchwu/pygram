@@ -146,6 +146,9 @@ def pipInstall(upgrade: bool = False):
         'fbs',
         'nuitka',
         'jieba',
+        'virtualenv',
+        'virtualenvwrapper',
+        'pipenv',
     ]
     if upgrade:
         for each in depList:
