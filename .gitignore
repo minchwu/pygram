@@ -5,6 +5,7 @@ code_exam/
 demo_test/
 demo.*
 demo/
+*test*.*
 tensor/
 *.log
 picture/
