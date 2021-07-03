@@ -9,17 +9,16 @@ FEM 0->1
 from os import read
 import numpy as np
 import pandas as pd
-import csv
 import matplotlib.pyplot as plt
 from numpy.core.numeric import convolve
-
+import csv
 
 DIM_PLANE = 2
 
 
 def slash(Notes: str = "", RS='-', N=70):
     """slash."""
-    print('\n'+RS * N)
+    print('\n' + RS * N)
     print(Notes)
     print(RS * N)
 
@@ -29,7 +28,6 @@ class GeomGrid:
 
     Generate plane grid
     """
-
     def __init__(self, PoIN=0, *Coord):
         self.nodeID = []
         self.dictIDNode = {}
@@ -46,10 +44,11 @@ class GeomGrid:
                             self.nodeID.append(0)
                             self.dictNodeID[each] = self.nodeID[-1]
                             self.dictIDNode[self.nodeID[-1]] = each
-                            self.nodeID.append(self.nodeID[-1]+1)
+                            self.nodeID.append(self.nodeID[-1] + 1)
                         else:
                             slash(
-                                "One node coord must be only, your geomgrid will not be updated!")
+                                "One node coord must be only, your geomgrid will not be updated!"
+                            )
                     pass
                 else:
                     slash("The coord of points must be couple!")
@@ -65,10 +64,11 @@ class GeomGrid:
                 if not each in self.dictNodeID.keys():
                     self.dictNodeID[each] = self.nodeID
                     self.dictIDNode[self.nodeID[-1]] = each
-                    self.nodeID.append(self.nodeID[-1]+1)
+                    self.nodeID.append(self.nodeID[-1] + 1)
                 else:
                     slash(
-                        "One node coord must be only, your geomgrid will not be updated!")
+                        "One node coord must be only, your geomgrid will not be updated!"
+                    )
         elif PoIN == 2:
             with open(Coord[0], 'r', encoding='utf-8') as f:
                 reader = csv.reader(f)
@@ -78,7 +78,7 @@ class GeomGrid:
                     self.CoordY = []
                     while True:
                         temp = next(reader)
-                        tmp = [[]+int(each) for each in temp]
+                        tmp = [[] + int(each) for each in temp]
                         self.nodeID.append(tmp[0])
                         self.CoordX.append(tmp[1])
                         self.CoordY.append(tmp[2])
@@ -114,11 +114,11 @@ class GeomGrid:
                 p1 = each[1]
                 p2 = each[2]
                 if p1 <= self.nodeID and p2 <= self.nodeID:
-                    self.dictIDLine[LN] = plt.plot((self.dictIDNode[p1][0],
-                                                    self.dictIDNode[p2][0]),
-                                                   (self.dictIDNode[p1][1],
-                                                    self.dictIDNode[p2][1]),
-                                                   linewidth=3, color='k')
+                    self.dictIDLine[LN] = plt.plot(
+                        (self.dictIDNode[p1][0], self.dictIDNode[p2][0]),
+                        (self.dictIDNode[p1][1], self.dictIDNode[p2][1]),
+                        linewidth=3,
+                        color='k')
             plt.show()
         elif CN == 2:
             with open(ConLine[0], 'r', encoding='utf-8') as f:
@@ -128,7 +128,7 @@ class GeomGrid:
                     self.CoordX = []
                     self.CoordY = []
                     while True:
-                        tmp = [[]+int(each) for each in next(reader)]
+                        tmp = [[] + int(each) for each in next(reader)]
                         self.dictNodeID[tuple(tmp[1:])] = tmp[0]
                         self.dictIDNode[tmp[0]] = tuple(tmp[1:])
                 except:
@@ -141,11 +141,11 @@ class GeomGrid:
                 p1 = each[1]
                 p2 = each[2]
                 if p1 <= self.nodeID and p2 <= self.nodeID:
-                    self.dictIDLine[LN] = plt.plot((self.dictIDNode[p1][0],
-                                                    self.dictIDNode[p2][0]),
-                                                   (self.dictIDNode[p1][1],
-                                                    self.dictIDNode[p2][1]),
-                                                   linewidth=3, color='k')
+                    self.dictIDLine[LN] = plt.plot(
+                        (self.dictIDNode[p1][0], self.dictIDNode[p2][0]),
+                        (self.dictIDNode[p1][1], self.dictIDNode[p2][1]),
+                        linewidth=3,
+                        color='k')
             plt.show()
 
         else:
